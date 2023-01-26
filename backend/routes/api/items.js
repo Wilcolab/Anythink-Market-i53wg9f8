@@ -40,6 +40,7 @@ router.get("/", auth.optional, function(req, res, next) {
   var query = {};
   var limit = 100;
   var offset = 0;
+  var title = "";
 
   if (typeof req.query.limit !== "undefined") {
     limit = req.query.limit;
@@ -53,6 +54,10 @@ router.get("/", auth.optional, function(req, res, next) {
     query.tagList = { $in: [req.query.tag] };
   }
 
+  if (typeof req.query.title !== "undefined") {
+    query.title = req.query.title;
+  }
+  
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
     req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
@@ -330,6 +335,7 @@ router.delete("/:item/comments/:comment", auth.required, function(
   } else {
     res.sendStatus(403);
   }
-});
+}
+);
 
 module.exports = router;
