@@ -55,9 +55,10 @@ router.get("/", auth.optional, function(req, res, next) {
   }
 
   if (typeof req.query.title !== "undefined") {
-    query.title = req.query.title;
+    const regex = new RegExp(req.query.title, 'i');
+    query.title = { $regex: regex }
   }
-  
+
   Promise.all([
     req.query.seller ? User.findOne({ username: req.query.seller }) : null,
     req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
