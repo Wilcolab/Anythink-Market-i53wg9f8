@@ -51,12 +51,12 @@ const reducer = (state = {}, action) => {
       return {
         ...state,
         pager: action.pager,
-        items: action.payload.items,
-        itemsCount: action.payload.itemsCount,
+        items: action.payload ? action.payload.items : [],
+        itemsCount: action.payload ? action.payload.itemsCount : 0,
         tab: null,
         title: action.title,
         currentPage: 0,
-        noResults: action.payload.items.length === 0,
+        noResults: !action.payload,
       };
     case HOME_PAGE_LOADED:
       return {
